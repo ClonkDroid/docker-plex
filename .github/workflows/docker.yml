@@ -264,27 +264,27 @@ jobs:
       # ║             CONTAINER REGISTRY LOGIN                ║
       # ╚═════════════════════════════════════════════════════╝
       # DOCKER HUB
-      - name: docker / login to hub
-        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
-        with:
-          username: 11notes
-          password: ${{ secrets.DOCKER_TOKEN }}
+      #- name: docker / login to hub
+      #  uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+      #  with:
+      #    username: 11notes
+      #    password: ${{ secrets.DOCKER_TOKEN }}
 
       # GITHUB CONTAINER REGISTRY
       - name: github / login to ghcr
         uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
         with:
           registry: ghcr.io
-          username: 11notes
+          username: ClonkDroid
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # REDHAT QUAY
-      - name: quay / login to quay
-        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
-        with:
-          registry: quay.io
-          username: 11notes+github
-          password: ${{ secrets.QUAY_TOKEN }}
+      #- name: quay / login to quay
+      #  uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+      #  with:
+      #    registry: quay.io
+      #    username: 11notes+github
+      #    password: ${{ secrets.QUAY_TOKEN }}
 
 
       # ╔═════════════════════════════════════════════════════╗
@@ -315,7 +315,7 @@ jobs:
           file: ${{ env.DOCKER_IMAGE_DOCKERFILE }}
           push: true
           platforms: linux/${{ matrix.platform }}
-          cache-from: type=registry,ref=${{ env.DOCKER_CACHE_NAME }}
+          cache-from: type=registry,ref=ghcr.io/${{ env.DOCKER_CACHE_NAME }}
           cache-to: type=registry,ref=${{ env.DOCKER_CACHE_REGISTRY }}${{ env.DOCKER_CACHE_NAME }},mode=max,compression=zstd,force-compression=true
           build-args: |
             ${{ env.DOCKER_IMAGE_ARGUMENTS }}
@@ -360,7 +360,7 @@ jobs:
           provenance: mode=max
           platforms: linux/${{ matrix.platform }}
           cache-from: type=registry,ref=${{ env.DOCKER_CACHE_REGISTRY }}${{ env.DOCKER_CACHE_NAME }}
-          cache-to: type=registry,ref=${{ env.DOCKER_CACHE_NAME }},mode=max,compression=zstd,force-compression=true
+          cache-to: type=registry,ref=ghcr.io/${{ env.DOCKER_CACHE_NAME }},mode=max,compression=zstd,force-compression=true
           build-args: |
             ${{ env.DOCKER_IMAGE_ARGUMENTS }}
           tags: |
