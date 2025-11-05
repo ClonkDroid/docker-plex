@@ -59,7 +59,7 @@
     eleven mkdir /distroless${APP_ROOT}/{etc,tmp};
 
 # :: PLEX
-  FROM 11notes/debian:stable AS build
+  FROM clonkdroid/debian:stable AS build
   ARG BUILD_BIN
   COPY --from=util / /
   COPY --from=distroless-localhealth / /
